@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "agent_build_sdk"
+version = "0.1.0"
+description = "agent-build-sdk using crewAI"
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<=3.13"
+crewai = { extras = ["tools"], version = "^0.36.1" }
+
+[tool.poetry.scripts]
+agent_build_sdk = "agent_build_sdk.main:run"
+train = "agent_build_sdk.main:train"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

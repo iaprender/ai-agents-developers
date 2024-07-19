@@ -1,0 +1,12 @@
+nodejs_developer_task:
+  description: >
+    Create a code in NodeJS to transform a EslasticSearch log in cloudwatch log.  
+  expected_output: >
+    A file name app.js with code NodeJS 
+
+csharp_developer_task:
+  description: >
+    Create a code in C# to transform a EslasticSearch log in cloudwatch log.  
+  expected_output: >
+    A file name app.cs with code C# 
+
