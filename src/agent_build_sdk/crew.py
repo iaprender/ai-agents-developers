@@ -1,14 +1,26 @@
+from dotenv import load_dotenv
+load_dotenv()
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-from crewai_tools import SerperDevTool
+# Importing crewAI tools
+from crewai_tools import (
+    SerperDevTool,
+    WebsiteSearchTool,
+	CodeInterpreterTool
+)
+
+search_tool = SerperDevTool(
+	
+)
+code_interpreter = CodeInterpreterTool()
+website_tool = WebsiteSearchTool()
 
 
-tool = SerperDevTool()
 # Uncomment the following line to use an example of a custom tool
 # from agent_build_sdk.tools.custom_tool import MyCustomTool
 
 # Check our tools documentations for more information on how to use them
-llm = ChatOpenAI(model='gpt-3.5') # Loading GPT-3.5
+# llm = ChatOpenAI(model='gpt-3.5') # Loading GPT-3.5
 
 @CrewBase
 class AgentBuildSdkCrew():
@@ -21,17 +33,25 @@ class AgentBuildSdkCrew():
 		return Agent(
 			config=self.agents_config['nodejs_developer'],
 			tools=[
-				SearchTools.search_internet,
-				BrowserTools.scrape_and_summarize_website],
-			verbose=True
+				search_tool,
+				website_tool,
+				code_interpreter
+			],
+			verbose=True,
+			allow_code_execution=True
 		)
 
 	@agent
 	def csharp_developer(self) -> Agent:
 		return Agent(
 			config=self.agents_config['csharp_developer'],
-			tools=[tool.searchInternetTool],
-			verbose=True
+			tools=[
+				search_tool,
+				website_tool,
+				code_interpreter
+			],
+			verbose=True,
+			allow_code_execution=True
 		)
 
 	@task
