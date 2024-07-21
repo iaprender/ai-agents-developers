@@ -1,6 +1,6 @@
-Here is the complete content for `app.js`:
+//Here is the complete content for `app.js`:
 
-```javascript
+
 const AWS = require('aws-sdk');
 const { Client } = require('@elastic/elasticsearch');
 
@@ -20,7 +20,7 @@ async function getElasticSearchLogs(index, query) {
       }
     }
   });
-  
+
   return body.hits.hits;
 }
 
@@ -60,7 +60,7 @@ async function convertElasticSearchLogsToCloudWatch() {
 
   // Get logs from Elasticsearch
   const esLogs = await getElasticSearchLogs(esIndex);
-  
+
   // Transform logs into CloudWatch format
   const logEvents = esLogs.map(log => ({
     message: JSON.stringify(log._source),
@@ -75,8 +75,8 @@ async function convertElasticSearchLogsToCloudWatch() {
 convertElasticSearchLogsToCloudWatch()
   .then(() => console.log('Logs have been successfully converted and sent to CloudWatch'))
   .catch(err => console.error('Error converting logs:', err));
-```
 
+/*
 This script does the following:
 1. Configures AWS SDK and Elasticsearch client.
 2. Fetches logs from an Elasticsearch index.
@@ -85,3 +85,4 @@ This script does the following:
 5. Puts the transformed logs into CloudWatch.
 
 Adjust `your_elasticsearch_index`, `your_cloudwatch_log_group`, and `your_cloudwatch_log_stream` with your actual values.
+*/
