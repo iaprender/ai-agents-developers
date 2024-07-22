@@ -4,24 +4,19 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 # Importing crewAI tools
 from crewai_tools import (
-    SerperDevTool,
-    WebsiteSearchTool,
+	SerperDevTool,
+	WebsiteSearchTool,
 	CodeInterpreterTool
 )
 
-search_tool = SerperDevTool(
-	
-)
+search_tool = SerperDevTool()
 code_interpreter = CodeInterpreterTool()
 website_tool = WebsiteSearchTool()
-
 
 # Uncomment the following line to use an example of a custom tool
 # from agent_build_sdk.tools.custom_tool import MyCustomTool
 
 # Check our tools documentations for more information on how to use them
-# llm = ChatOpenAI(model='gpt-3.5') # Loading GPT-3.5
-
 @CrewBase
 class AgentBuildSdkCrew():
 	"""AgentBuildSdk crew"""
@@ -38,13 +33,26 @@ class AgentBuildSdkCrew():
 				code_interpreter
 			],
 			verbose=True,
-			allow_code_execution=True
+			allow_code_execution=True,
 		)
 
 	@agent
-	def csharp_developer(self) -> Agent:
+	def dotnet_developer(self) -> Agent:
 		return Agent(
-			config=self.agents_config['csharp_developer'],
+			config=self.agents_config['dotnet_developer'],
+			tools=[
+				search_tool,
+				website_tool,
+				code_interpreter
+			],
+			verbose=True,
+			allow_code_execution=True,
+		)
+	
+	@agent
+	def elasticsearch_engineer(self) -> Agent:
+		return Agent(
+			config=self.agents_config['elasticsearch_engineer'],
 			tools=[
 				search_tool,
 				website_tool,
@@ -63,11 +71,20 @@ class AgentBuildSdkCrew():
 		)
 
 	@task
-	def csharp_developer_task(self) -> Task:
+	def dotnet_developer_task(self) -> Task:
 		return Task(
-			config=self.tasks_config['csharp_developer_task'],
-			agent=self.csharp_developer(),
+			config=self.tasks_config['dotnet_developer_task'],
+			agent=self.dotnet_developer(),
 			output_file='app.cs'
+		)
+	
+	@task
+	def elasticsearch_engineer_task(self) -> Task:
+		return Task(
+			config=self.tasks_config['elasticsearch_engineer_task'],
+			agent=self.elasticsearch_engineer(),
+			output_file='elasticsearch_engineer_output.txt',
+			delegated=True
 		)
 
 	@crew
